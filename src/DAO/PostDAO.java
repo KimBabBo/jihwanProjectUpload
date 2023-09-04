@@ -50,14 +50,14 @@ public class PostDAO {
 		String sql = "";
 		if (boardNo == 0) {
 			sql = "SELECT * FROM "
-					+ "(SELECT ROWNUM AS rnum, p.post_no, p.title, m.nickname, TO_CHAR(p.upload_date, 'YYYY-MM-DD') AS upload_date, p.view_cnt"
-					+ " FROM (SELECT * FROM post ORDER BY post_no DESC) p, member m"
-					+ " WHERE p.reg_no = m.reg_no AND ROWNUM <= ? * ?)" + " WHERE rnum > (? - 1) * ?";
+				+ "(SELECT ROWNUM AS rnum, p.post_no, p.title, m.nickname, TO_CHAR(p.upload_date, 'YYYY-MM-DD') AS upload_date, p.view_cnt"
+				+ " FROM (SELECT * FROM post ORDER BY post_no DESC) p, member m"
+				+ " WHERE p.reg_no = m.reg_no AND ROWNUM <= ? * ?)" + " WHERE rnum > (? - 1) * ?";
 		} else {
 			sql = "SELECT * FROM "
-					+ "(SELECT ROWNUM AS rnum, p.post_no, p.title, m.nickname, TO_CHAR(p.upload_date, 'YYYY-MM-DD') AS upload_date, p.view_cnt"
-					+ " FROM (SELECT * FROM post WHERE board_no = ? ORDER BY post_no DESC) p, member m"
-					+ " WHERE p.reg_no = m.reg_no AND ROWNUM <= ? * ?)" + " WHERE rnum > (? - 1) * ?";
+				+ "(SELECT ROWNUM AS rnum, p.post_no, p.title, m.nickname, TO_CHAR(p.upload_date, 'YYYY-MM-DD') AS upload_date, p.view_cnt"
+				+ " FROM (SELECT * FROM post WHERE board_no = ? ORDER BY post_no DESC) p, member m"
+				+ " WHERE p.reg_no = m.reg_no AND ROWNUM <= ? * ?)" + " WHERE rnum > (? - 1) * ?";
 		}
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			int index = 1;
